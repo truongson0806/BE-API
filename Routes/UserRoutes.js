@@ -7,6 +7,7 @@ import User from "./../Models/UserModel.js";
 const userRouter = express.Router();
 
 // LOGIN
+// LOGIN
 userRouter.post(
   "/login",
   asyncHandler(async (req, res) => {
@@ -14,6 +15,9 @@ userRouter.post(
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
+      const fakeTotalQuantity = 100;
+      const fakeTotalPrice = 5000;
+
       res.json({
         _id: user._id,
         name: user.name,
@@ -22,6 +26,8 @@ userRouter.post(
         isEmployee: user.isEmployee,
         token: generateToken(user._id),
         createdAt: user.createdAt,
+        totalQuantity: fakeTotalQuantity,
+        totalPrice: fakeTotalPrice,
       });
     } else {
       res.status(401);
